@@ -1,28 +1,38 @@
 <?php
 session_start();
+include "db.php";
+
 $error = "";
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
-  $email    = $_POST['email'];
+  $email    = trim($_POST['email']);
   $password = $_POST['password'];
 
-  // Check if user has registered
-  if (!isset($_SESSION['registered_email']) || !isset($_SESSION['registered_user'])) {
-    $error = "Please register first";
-  }
-  // Validate email match and strong password
-  else if (
-    $email !== $_SESSION['registered_email'] ||
-    !preg_match("/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W]).{8,}$/", $password)
-  ) {
+  // Fetch user from database
+  $query = mysqli_query(
+    $conn,
+    "SELECT username, password FROM users WHERE email='$email'"
+  );
+
+  if (mysqli_num_rows($query) === 1) {
+
+    $row = mysqli_fetch_assoc($query);
+
+    // Check password match
+    if ($password === $row['password']) {
+
+      // Successful login
+      $_SESSION['username'] = $row['username'];
+      header("Location: user_dashboard.php");
+      exit();
+
+    } else {
+      $error = "Invalid login credentials";
+    }
+
+  } else {
     $error = "Invalid login credentials";
-  }
-  else {
-    // Successful login
-    $_SESSION['username'] = $_SESSION['registered_user'];
-    header("Location: user_dashboard.php");
-    exit();
   }
 }
 ?>
@@ -72,7 +82,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
   <h2>Login</h2>
   <p class="subtitle">Enter your email and password</p>
 
-  <?php if ($error) echo "<p style='color:red'>$error</p>"; ?>
+  <?php if ($error): ?>
+    <p style="color:red"><?php echo htmlspecialchars($error); ?></p>
+  <?php endif; ?>
 
   <form method="POST">
     <input type="email" name="email" placeholder="Email" required>

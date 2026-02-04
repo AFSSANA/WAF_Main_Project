@@ -13,7 +13,7 @@ $username = $_SESSION['username'];
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Fashion Store Dashboard</title>
+<title>Fashion Cloud Dashboard</title>
 
 <style>
 *{
@@ -30,10 +30,24 @@ body{
 .header{
   background:#7a4cff;
   color:#fff;
-  padding:20px 40px;
+  padding:18px 40px;
   display:flex;
   justify-content:space-between;
   align-items:center;
+}
+
+.header-left{
+  display:flex;
+  align-items:center;
+  gap:15px;
+}
+
+.toggle-btn{
+  font-size:22px;
+  cursor:pointer;
+  background:#5c2fe0;
+  padding:8px 12px;
+  border-radius:8px;
 }
 
 .header h1{
@@ -49,21 +63,106 @@ body{
   border-radius:8px;
 }
 
-/* HERO */
+/* LAYOUT */
+.dashboard{
+  display:flex;
+  min-height:calc(100vh - 70px);
+}
+
+/* SIDEBAR */
+.sidebar{
+  width:240px;
+  background:#ffffff;
+  padding:25px 20px;
+  box-shadow:4px 0 15px rgba(0,0,0,0.05);
+  transition:width 0.3s ease, padding 0.3s ease;
+  overflow:hidden;
+}
+
+.sidebar.collapsed{
+  width:0;
+  padding:0;
+}
+
+.sidebar h3{
+  margin-bottom:20px;
+  color:#7a4cff;
+}
+
+.sidebar ul{
+  list-style:none;
+  padding:0;
+  margin:0;
+}
+
+.sidebar ul li{
+  margin-bottom:15px;
+}
+
+.sidebar ul li a{
+  text-decoration:none;
+  color:#444;
+  font-weight:500;
+  display:block;
+  padding:10px 15px;
+  border-radius:8px;
+}
+
+.sidebar ul li a:hover{
+  background:#efeaff;
+  color:#7a4cff;
+}
+
+/* MAIN CONTENT */
+.main{
+  flex:1;
+}
+
+/* HERO (UPDATED) */
 .hero{
-  text-align:center;
-  padding:60px 20px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:70px 80px;
   background:linear-gradient(135deg,#8e5df7,#c4a8ff);
   color:#fff;
 }
 
-.hero h2{
-  font-size:36px;
-  margin-bottom:10px;
+.hero-text{
+  max-width:50%;
 }
 
-.hero p{
+.hero-text h2{
+  font-size:42px;
+  margin-bottom:15px;
+}
+
+.hero-text p{
   font-size:18px;
+  margin-bottom:25px;
+  opacity:0.95;
+}
+
+.hero-text button{
+  padding:14px 30px;
+  border:none;
+  background:#fff;
+  color:#7a4cff;
+  border-radius:25px;
+  font-size:16px;
+  font-weight:600;
+  cursor:pointer;
+}
+
+.hero-text button:hover{
+  background:#f2efff;
+}
+
+.hero-image img{
+  width:320px;
+  border-radius:50%;
+  background:rgba(255,255,255,0.2);
+  padding:15px;
 }
 
 /* SEARCH */
@@ -90,40 +189,6 @@ body{
   border-radius:0 12px 12px 0;
   cursor:pointer;
 }
-
-/* PRODUCTS */
-.products{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-  gap:25px;
-  padding:40px;
-}
-
-.product{
-  background:#fff;
-  padding:20px;
-  border-radius:16px;
-  box-shadow:0 10px 25px rgba(0,0,0,0.1);
-  text-align:center;
-}
-
-.product h3{
-  margin:10px 0;
-}
-
-.product p{
-  color:#555;
-}
-
-.product button{
-  margin-top:10px;
-  padding:10px 20px;
-  border:none;
-  background:#7a4cff;
-  color:#fff;
-  border-radius:8px;
-  cursor:pointer;
-}
 </style>
 </head>
 
@@ -131,7 +196,11 @@ body{
 
 <!-- HEADER -->
 <div class="header">
-  <h1>Fashion Cloud</h1>
+  <div class="header-left">
+    <div class="toggle-btn" onclick="toggleSidebar()" id="toggleIcon">☰</div>
+    <h1>Fashion Cloud</h1>
+  </div>
+
   <div>
     Welcome, <b><?php echo htmlspecialchars($username); ?></b> 👋
     &nbsp;&nbsp;
@@ -139,46 +208,56 @@ body{
   </div>
 </div>
 
-<!-- HERO -->
-<div class="hero">
-  <h2>Discover the Latest Trends</h2>
-  <p>Explore women’s fashion curated just for you</p>
+<!-- DASHBOARD -->
+<div class="dashboard">
+
+  <!-- SIDEBAR -->
+  <div class="sidebar" id="sidebar">
+    <h3>Categories</h3>
+    <ul>
+      <li><a href="#">Women</a></li>
+      <li><a href="#">Men</a></li>
+      <li><a href="#">Accessories</a></li>
+      <li><a href="#">New Arrivals</a></li>
+      <li><a href="#">Offers</a></li>
+    </ul>
+  </div>
+
+  <!-- MAIN -->
+  <div class="main">
+
+
+  <!-- SEARCH -->
+    <div class="search-box">
+      <input type="text" placeholder="Search dresses, tops, collections...">
+      <button>Search</button>
+    </div>
+
+
+    <!-- HERO -->
+    <div class="hero">
+      <div class="hero-text">
+        <h2>The latest trends<br>in fashion</h2>
+        <p>Explore modern styles curated just for you</p>
+        <button>Shop Now</button>
+      </div>
+
+      <div class="hero-image">
+        <img src="https://i.pinimg.com/236x/43/f6/2d/43f62dd0ad6b1d8e6b38e770e0686276.jpg" alt="Fashion Model">
+      </div>
+    </div>
+
+    
+
+  </div>
 </div>
 
-<!-- SEARCH -->
-<div class="search-box">
-  <input type="text" placeholder="Search dresses, tops, collections...">
-  <button>Search</button>
-</div>
-
-<!-- PRODUCTS -->
-<div class="products">
-
-  <div class="product">
-    <h3>Floral Dress</h3>
-    <p>₹1,499</p>
-    <button>View</button>
-  </div>
-
-  <div class="product">
-    <h3>Casual Kurti</h3>
-    <p>₹999</p>
-    <button>View</button>
-  </div>
-
-  <div class="product">
-    <h3>Elegant Saree</h3>
-    <p>₹2,499</p>
-    <button>View</button>
-  </div>
-
-  <div class="product">
-    <h3>Stylish Top</h3>
-    <p>₹799</p>
-    <button>View</button>
-  </div>
-
-</div>
+<script>
+function toggleSidebar(){
+  const sidebar = document.getElementById("sidebar");
+  sidebar.classList.toggle("collapsed");
+}
+</script>
 
 </body>
 </html>

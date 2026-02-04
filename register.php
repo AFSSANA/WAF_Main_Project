@@ -1,25 +1,45 @@
 <?php
 session_start();
+include "db.php";
+
 $error = "";
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
-  $username = $_POST['username'];
-  $email    = $_POST['email'];
+  $username = trim($_POST['username']);
+  $email    = trim($_POST['email']);
   $password = $_POST['password'];
 
-  // EMAIL VALIDATION (not gmail-only)
+  // EMAIL VALIDATION
   if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
     $error = "Please enter a valid email address";
   }
+  // STRONG PASSWORD VALIDATION
   else if (!preg_match("/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W]).{8,}$/", $password)) {
     $error = "Password must contain uppercase, lowercase, number and special character";
   }
   else {
-    $_SESSION['registered_user']  = $username;
-    $_SESSION['registered_email'] = $email;
-    header("Location: login.php");
-    exit();
+
+    // CHECK IF EMAIL ALREADY EXISTS
+    $check = mysqli_query($conn, "SELECT id FROM users WHERE email='$email'");
+    if (mysqli_num_rows($check) > 0) {
+      $error = "Email already registered. Please login.";
+    }
+    else {
+      // INSERT USER INTO DATABASE
+      $insert = mysqli_query(
+        $conn,
+        "INSERT INTO users (username, email, password)
+         VALUES ('$username', '$email', '$password')"
+      );
+
+      if ($insert) {
+        header("Location: login.php");
+        exit();
+      } else {
+        $error = "Registration failed. Please try again.";
+      }
+    }
   }
 }
 ?>
@@ -52,7 +72,7 @@ body{margin:0;height:100vh;display:flex;justify-content:center;align-items:cente
   <div class="card">
     <div class="left">
       <h2>Create Account</h2>
-      <p>Join our fashion world ✨</p>
+      <p>Join our fashion world </p>
 
       <?php if ($error): ?>
         <div class="error"><?php echo htmlspecialchars($error); ?></div>

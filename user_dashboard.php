@@ -1,24 +1,26 @@
 <?php
 session_start();
 
-/* Protect page */
 if (!isset($_SESSION['username'])) {
     header("Location: login.php");
     exit();
 }
 
 $username = $_SESSION['username'];
+
+/* Detect category page */
+$isCategoryPage = basename($_SERVER['PHP_SELF']) !== 'user_dashboard.php';
 ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Fashion Cloud Dashboard</title>
+<title>Fashion Cloud</title>
 
 <style>
 *{
   box-sizing:border-box;
-  font-family: "Segoe UI", sans-serif;
+  font-family:"Segoe UI", sans-serif;
 }
 
 body{
@@ -50,17 +52,18 @@ body{
   border-radius:8px;
 }
 
+.home-btn{
+  font-size:22px;
+  color:#fff;
+  background:#5c2fe0;
+  padding:8px 14px;
+  border-radius:8px;
+  text-decoration:none;
+}
+
 .header h1{
   margin:0;
   font-size:24px;
-}
-
-.header a{
-  color:#fff;
-  text-decoration:none;
-  background:#5c2fe0;
-  padding:8px 16px;
-  border-radius:8px;
 }
 
 /* LAYOUT */
@@ -75,13 +78,13 @@ body{
   background:#ffffff;
   padding:25px 20px;
   box-shadow:4px 0 15px rgba(0,0,0,0.05);
-  transition:width 0.3s ease, padding 0.3s ease;
-  overflow:hidden;
+  transition:0.3s;
 }
 
 .sidebar.collapsed{
   width:0;
   padding:0;
+  overflow:hidden;
 }
 
 .sidebar h3{
@@ -92,7 +95,6 @@ body{
 .sidebar ul{
   list-style:none;
   padding:0;
-  margin:0;
 }
 
 .sidebar ul li{
@@ -102,9 +104,8 @@ body{
 .sidebar ul li a{
   text-decoration:none;
   color:#444;
-  font-weight:500;
-  display:block;
   padding:10px 15px;
+  display:block;
   border-radius:8px;
 }
 
@@ -113,12 +114,12 @@ body{
   color:#7a4cff;
 }
 
-/* MAIN CONTENT */
+/* MAIN */
 .main{
   flex:1;
 }
 
-/* HERO (UPDATED) */
+/* HERO */
 .hero{
   display:flex;
   align-items:center;
@@ -140,7 +141,6 @@ body{
 .hero-text p{
   font-size:18px;
   margin-bottom:25px;
-  opacity:0.95;
 }
 
 .hero-text button{
@@ -154,14 +154,9 @@ body{
   cursor:pointer;
 }
 
-.hero-text button:hover{
-  background:#f2efff;
-}
-
 .hero-image img{
   width:320px;
   border-radius:50%;
-  background:rgba(255,255,255,0.2);
   padding:15px;
 }
 
@@ -177,7 +172,6 @@ body{
   padding:16px;
   border-radius:12px 0 0 12px;
   border:none;
-  font-size:16px;
 }
 
 .search-box button{
@@ -185,9 +179,7 @@ body{
   border:none;
   background:#7a4cff;
   color:#fff;
-  font-size:16px;
   border-radius:0 12px 12px 0;
-  cursor:pointer;
 }
 </style>
 </head>
@@ -196,16 +188,25 @@ body{
 
 <!-- HEADER -->
 <div class="header">
+
   <div class="header-left">
-    <div class="toggle-btn" onclick="toggleSidebar()" id="toggleIcon">☰</div>
-    <h1>Fashion Cloud</h1>
+    <div class="toggle-btn" onclick="toggleSidebar()">☰</div>
+
+    <?php if(!$isCategoryPage): ?>
+      <h1>Fashion Cloud</h1>
+    <?php endif; ?>
   </div>
 
   <div>
-    Welcome, <b><?php echo htmlspecialchars($username); ?></b> 👋
-    &nbsp;&nbsp;
-    <a href="logout.php">Logout</a>
+    <?php if($isCategoryPage): ?>
+      <a href="user_dashboard.php" class="home-btn">🏠</a>
+    <?php else: ?>
+      Welcome, <b><?php echo htmlspecialchars($username); ?></b> 👋
+      &nbsp;&nbsp;
+      <a href="logout.php" class="home-btn">Logout</a>
+    <?php endif; ?>
   </div>
+
 </div>
 
 <!-- DASHBOARD -->
@@ -215,26 +216,22 @@ body{
   <div class="sidebar" id="sidebar">
     <h3>Categories</h3>
     <ul>
-      <li><a href="#">Women</a></li>
-      <li><a href="#">Men</a></li>
-      <li><a href="#">Accessories</a></li>
-      <li><a href="#">New Arrivals</a></li>
-      <li><a href="#">Offers</a></li>
+      <li><a href="Women.php" onclick="closeSidebar()">Women</a></li>
+      <li><a href="Men.php" onclick="closeSidebar()">Men</a></li>
+      <li><a href="Accessories.php" onclick="closeSidebar()">Accessories</a></li>
+      <li><a href="New_Arrivals.php" onclick="closeSidebar()">New Arrivals</a></li>
+      <li><a href="Offers.php" onclick="closeSidebar()">Offers</a></li>
     </ul>
   </div>
 
   <!-- MAIN -->
   <div class="main">
 
-
-  <!-- SEARCH -->
     <div class="search-box">
       <input type="text" placeholder="Search dresses, tops, collections...">
       <button>Search</button>
     </div>
 
-
-    <!-- HERO -->
     <div class="hero">
       <div class="hero-text">
         <h2>The latest trends<br>in fashion</h2>
@@ -243,19 +240,20 @@ body{
       </div>
 
       <div class="hero-image">
-        <img src="https://i.pinimg.com/236x/43/f6/2d/43f62dd0ad6b1d8e6b38e770e0686276.jpg" alt="Fashion Model">
+        <img src="https://i.pinimg.com/236x/43/f6/2d/43f62dd0ad6b1d8e6b38e770e0686276.jpg">
       </div>
     </div>
-
-    
 
   </div>
 </div>
 
 <script>
 function toggleSidebar(){
-  const sidebar = document.getElementById("sidebar");
-  sidebar.classList.toggle("collapsed");
+  document.getElementById("sidebar").classList.toggle("collapsed");
+}
+
+function closeSidebar(){
+  document.getElementById("sidebar").classList.add("collapsed");
 }
 </script>
 

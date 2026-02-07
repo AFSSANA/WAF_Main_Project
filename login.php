@@ -12,8 +12,28 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
   // Fetch user from database
   $query = mysqli_query(
     $conn,
-    "SELECT username, password FROM users WHERE email='$email'"
+    "SELECT username, password FROM users WHERE email='$email'" // this allows input like  'Or '1'='1
   );
+  //attack launching
+
+  // SQL Injection keyword detection
+$suspicious_patterns = "/('|\-\-|#|\/\*|\*\/|\bOR\b|\bAND\b|\bSELECT\b|\bUNION\b|\bDROP\b|\bINSERT\b|\bDELETE\b|\bUPDATE\b)/i";
+
+if (preg_match($suspicious_patterns, $email)) {
+
+    // Log the attack
+    include "log_attack.php";
+
+    $attack_type = "SQL Injection";
+    $page_name   = "login.php";
+    $input_value = $email;
+    $status      = "Blocked";
+
+    logAttack($attack_type, $page_name, $input_value, $status);
+
+    $error = "Suspicious input detected";
+}
+
 
   if (mysqli_num_rows($query) === 1) {
 
@@ -87,7 +107,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
   <?php endif; ?>
 
   <form method="POST">
-    <input type="email" name="email" placeholder="Email" required>
+    <input type="text" name="email" placeholder="Email" required>
     <input type="password" name="password" placeholder="Password" required>
     <button type="submit">Login</button>
   </form>

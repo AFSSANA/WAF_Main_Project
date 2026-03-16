@@ -1,8 +1,8 @@
 <?php
 $host = "localhost";
-$user = "wafuser";      // NOT root
-$pass = "StrongPass123!"; // password you set earlier
-$db   = "waf_project";  // correct database name
+$user = "wafuser";
+$pass = "StrongPass123!";
+$db   = "waf_project";
 
 $conn = mysqli_connect($host, $user, $pass, $db);
 

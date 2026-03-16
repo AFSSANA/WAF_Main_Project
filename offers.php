@@ -1,87 +1,318 @@
 <?php
 session_start();
+
 if (!isset($_SESSION['username'])) {
-    header("Location: login.php");
-    exit();
+header("Location: login.php");
+exit();
 }
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Offers | Fashion Cloud</title>
+<title>Special Offers | Fashion Cloud</title>
 
 <style>
-*{box-sizing:border-box;font-family:"Segoe UI",sans-serif}
-body{margin:0;background:#f2efff}
+
+*{
+box-sizing:border-box;
+font-family:"Segoe UI",sans-serif;
+}
+
+body{
+margin:0;
+background:#f2efff;
+}
 
 /* HEADER */
-.header{background:#7a4cff;color:#fff;padding:18px 40px;display:flex;justify-content:space-between;align-items:center}
-.header-left{display:flex;align-items:center;gap:15px}
-.toggle-btn{font-size:22px;cursor:pointer;background:#5c2fe0;padding:8px 12px;border-radius:8px}
-.header h1{margin:0;font-size:24px}
-.home-btn{background:#5c2fe0;padding:10px;border-radius:10px;display:flex}
 
-/* LAYOUT */
-.dashboard{display:flex;min-height:calc(100vh - 70px)}
-.sidebar{width:240px;background:#fff;padding:25px 20px;box-shadow:4px 0 15px rgba(0,0,0,.05);transition:.3s}
-.sidebar.collapsed{width:0;padding:0;overflow:hidden}
-.sidebar ul{list-style:none;padding:0}
-.sidebar li{margin-bottom:15px}
-.sidebar a{text-decoration:none;color:#444;padding:10px 15px;display:block;border-radius:8px}
-.sidebar a.active,.sidebar a:hover{background:#efeaff;color:#7a4cff}
+.header{
+background:#7a4cff;
+color:white;
+padding:18px 40px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+}
 
-/* MAIN */
-.main{flex:1}
-.hero{padding:60px 80px;background:linear-gradient(135deg,#8e5df7,#c4a8ff);color:#fff}
-.products{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:25px;padding:40px}
-.product{background:#fff;padding:20px;border-radius:16px;box-shadow:0 10px 25px rgba(0,0,0,.1);text-align:center}
-.product img{width:100%;height:220px;object-fit:cover;border-radius:12px}
-.product p{color:#7a4cff;font-weight:600}
-del{color:#999}
+.home-btn{
+background:#5c2fe0;
+padding:10px;
+border-radius:10px;
+text-decoration:none;
+display:flex;
+align-items:center;
+justify-content:center;
+}
+
+/* HERO */
+
+.hero{
+background:linear-gradient(135deg,#ff4d6d,#ff9a9e);
+color:white;
+padding:60px 80px;
+}
+
+.hero h1{
+font-size:40px;
+margin-bottom:10px;
+}
+
+/* PRODUCTS */
+
+.products{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+gap:25px;
+padding:50px;
+}
+
+.product{
+background:#fff;
+padding:20px;
+border-radius:16px;
+box-shadow:0 10px 25px rgba(0,0,0,0.1);
+text-align:center;
+position:relative;
+}
+
+.discount{
+position:absolute;
+top:10px;
+left:10px;
+background:#ff4d6d;
+color:white;
+padding:4px 8px;
+border-radius:6px;
+font-size:12px;
+}
+
+.product img{
+width:100%;
+height:220px;
+object-fit:cover;
+border-radius:12px;
+}
+
+.product h3{
+margin:12px 0 5px;
+}
+
+.price{
+color:#7a4cff;
+font-weight:600;
+}
+
+.old-price{
+text-decoration:line-through;
+color:gray;
+font-size:14px;
+margin-left:6px;
+}
+
+.buttons{
+display:flex;
+justify-content:center;
+gap:10px;
+margin-top:10px;
+}
+
+.cart-btn{
+background:#7a4cff;
+color:white;
+border:none;
+padding:8px 14px;
+border-radius:8px;
+cursor:pointer;
+}
+
+.wishlist-btn{
+background:#ff4081;
+color:white;
+border:none;
+padding:8px 14px;
+border-radius:8px;
+cursor:pointer;
+}
+
 </style>
 </head>
 
 <body>
 
 <div class="header">
-  <div class="header-left">
-    <div class="toggle-btn" onclick="toggleSidebar()">☰</div>
-    <h1>Fashion Cloud</h1>
-  </div>
-  <a href="user_dashboard.php" class="home-btn">🏠</a>
+
+<h2>Special Offers</h2>
+
+<a href="user_dashboard.php" class="home-btn">
+
+<svg xmlns="http://www.w3.org/2000/svg"
+viewBox="0 0 24 24"
+width="22"
+height="22"
+fill="white">
+
+<path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
+
+</svg>
+
+</a>
+
 </div>
 
-<div class="dashboard">
-  <div class="sidebar collapsed" id="sidebar">
-    <ul>
-      <li><a href="women.php">Women</a></li>
-      <li><a href="men.php">Men</a></li>
-      <li><a href="accessories.php">Accessories</a></li>
-      <li><a href="new_arrivals.php">New Arrivals</a></li>
-      <li><a href="offers.php" class="active">Offers</a></li>
-    </ul>
-  </div>
-
-  <div class="main">
-    <div class="hero">
-      <h2>Special Offers</h2>
-      <p>Best deals curated for you</p>
-    </div>
-
-    <div class="products">
-      <div class="product"><img src="images/off1.jpg"><h3>Festive Saree</h3><p><del>₹2,999</del> ₹1,999</p></div>
-      <div class="product"><img src="images/off2.jpg"><h3>Casual Shirt</h3><p><del>₹1,299</del> ₹899</p></div>
-      <div class="product"><img src="images/off3.jpg"><h3>Handbag</h3><p><del>₹1,899</del> ₹1,299</p></div>
-    </div>
-  </div>
+<div class="hero">
+<h1>🔥 Mega Fashion Sale</h1>
+<p>Grab your favorite styles at huge discounts</p>
 </div>
 
-<script>
-function toggleSidebar(){
-  document.getElementById("sidebar").classList.toggle("collapsed");
-}
-</script>
+<div class="products">
+
+<!-- OFFER 1 -->
+
+<div class="product">
+<div class="discount">50% OFF</div>
+
+<img src="images/offer1.jpg">
+
+<h3>Designer Kurta</h3>
+
+<p class="price">₹999 <span class="old-price">₹1999</span></p>
+
+<div class="buttons">
+
+<a href="add_to_cart.php?product=Designer Kurta Offer&price=999&image=images/offer1.jpg">
+<button class="cart-btn">Add to Cart</button>
+</a>
+
+<a href="add_to_wishlist.php?product=Designer Kurta Offer&price=999&image=images/offer1.jpg">
+<button class="wishlist-btn">Wishlist</button>
+</a>
+
+</div>
+</div>
+
+<!-- OFFER 2 -->
+
+<div class="product">
+<div class="discount">40% OFF</div>
+
+<img src="images/offer2.jpg">
+
+<h3>Luxury Handbag</h3>
+
+<p class="price">₹1499 <span class="old-price">₹2499</span></p>
+
+<div class="buttons">
+
+<a href="add_to_cart.php?product=Luxury Handbag Offer&price=1499&image=images/offer2.jpg">
+<button class="cart-btn">Add to Cart</button>
+</a>
+
+<a href="add_to_wishlist.php?product=Luxury Handbag Offer&price=1499&image=images/offer2.jpg">
+<button class="wishlist-btn">Wishlist</button>
+</a>
+
+</div>
+</div>
+
+<!-- OFFER 3 -->
+
+<div class="product">
+<div class="discount">30% OFF</div>
+
+<img src="images/offer3.jpg">
+
+<h3>Men Casual Shirt</h3>
+
+<p class="price">₹839 <span class="old-price">₹1199</span></p>
+
+<div class="buttons">
+
+<a href="add_to_cart.php?product=Men Shirt Offer&price=839&image=images/offer3.jpg">
+<button class="cart-btn">Add to Cart</button>
+</a>
+
+<a href="add_to_wishlist.php?product=Men Shirt Offer&price=839&image=images/offer3.jpg">
+<button class="wishlist-btn">Wishlist</button>
+</a>
+
+</div>
+</div>
+
+<!-- OFFER 4 -->
+
+<div class="product">
+<div class="discount">35% OFF</div>
+
+<img src="images/offer4.jpg">
+
+<h3>Stylish Saree</h3>
+
+<p class="price">₹1299 <span class="old-price">₹1999</span></p>
+
+<div class="buttons">
+
+<a href="add_to_cart.php?product=Saree Offer&price=1299&image=images/offer4.jpg">
+<button class="cart-btn">Add to Cart</button>
+</a>
+
+<a href="add_to_wishlist.php?product=Saree Offer&price=1299&image=images/offer4.jpg">
+<button class="wishlist-btn">Wishlist</button>
+</a>
+
+</div>
+</div>
+
+<!-- OFFER 5 -->
+
+<div class="product">
+<div class="discount">45% OFF</div>
+
+<img src="images/offer5.jpg">
+
+<h3>Premium Jeans</h3>
+
+<p class="price">₹999 <span class="old-price">₹1799</span></p>
+
+<div class="buttons">
+
+<a href="add_to_cart.php?product=Jeans Offer&price=999&image=images/offer5.jpg">
+<button class="cart-btn">Add to Cart</button>
+</a>
+
+<a href="add_to_wishlist.php?product=Jeans Offer&price=999&image=images/offer5.jpg">
+<button class="wishlist-btn">Wishlist</button>
+</a>
+
+</div>
+</div>
+
+<!-- OFFER 6 -->
+
+<div class="product">
+<div class="discount">30% OFF</div>
+
+<img src="images/offer6.jpg">
+
+<h3>Luxury Watch</h3>
+
+<p class="price">₹2799 <span class="old-price">₹3999</span></p>
+
+<div class="buttons">
+
+<a href="add_to_cart.php?product=Watch Offer&price=2799&image=images/offer6.jpg">
+<button class="cart-btn">Add to Cart</button>
+</a>
+
+<a href="add_to_wishlist.php?product=Watch Offer&price=2799&image=images/offer6.jpg">
+<button class="wishlist-btn">Wishlist</button>
+</a>
+
+</div>
+</div>
+
+</div>
 
 </body>
 </html>

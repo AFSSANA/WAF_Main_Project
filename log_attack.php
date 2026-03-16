@@ -1,23 +1,18 @@
 <?php
 include "db.php";
 
-function logAttack($attack_type, $page_name, $input_value, $status) {
+function logAttack($attack_type, $page_name, $input_value, $status){
+
     global $conn;
 
-    $stmt = mysqli_prepare(
-        $conn,
-        "INSERT INTO attack_logs (attack_type, page_name, input_value, status, time)
-         VALUES (?, ?, ?, ?, NOW())"
-    );
+    // Get attacker IP
+    $ip_address = $_SERVER['REMOTE_ADDR'];
 
-    mysqli_stmt_bind_param(
-        $stmt,
-        "ssss",
-        $attack_type,
-        $page_name,
-        $input_value,
-        $status
-    );
+    $query = "INSERT INTO attack_logs 
+              (attack_type, page_name, input_value, time, status, ip_address) 
+              VALUES 
+              ('$attack_type','$page_name','$input_value',NOW(),'$status','$ip_address')";
 
-    mysqli_stmt_execute($stmt);
+    mysqli_query($conn, $query);
 }
+?>

@@ -1,10 +1,12 @@
 <?php
 session_start();
 
-if (!isset($_SESSION['username'])) {
-    header("Location: login.php");
-    exit();
+if(!isset($_SESSION['admin'])){
+header("Location: admin_login.php");
+exit();
 }
+
+$admin = $_SESSION['admin'];
 ?>
 <!DOCTYPE html>
 <html lang="en">

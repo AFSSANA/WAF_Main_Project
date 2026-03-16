@@ -71,10 +71,6 @@ body{
   text-decoration:none;
 }
 
-.home-btn:hover{
-  background:#4a22d4;
-}
-
 /* LAYOUT */
 .dashboard{
   display:flex;
@@ -104,7 +100,6 @@ body{
 .sidebar ul{
   list-style:none;
   padding:0;
-  margin:0;
 }
 
 .sidebar ul li{
@@ -143,48 +138,38 @@ body{
   margin-bottom:10px;
 }
 
-.hero p{
-  font-size:18px;
-  opacity:0.95;
-}
-
-/* PRODUCTS */
-.products{
+/* CATEGORY GRID */
+.categories{
   display:grid;
   grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
   gap:25px;
   padding:40px;
 }
 
-.product{
+.category{
   background:#fff;
-  padding:20px;
   border-radius:16px;
-  box-shadow:0 10px 25px rgba(0,0,0,0.1);
+  box-shadow:0 10px 25px rgba(192, 111, 204, 0.1);
   text-align:center;
+  overflow:hidden;
+  text-decoration:none;
+  color:#000;
 }
 
-.product img{
+.category img{
   width:100%;
   height:220px;
   object-fit:cover;
-  border-radius:12px;
 }
 
-.product h3{
-  margin:12px 0 5px;
-}
-
-.product p{
-  color:#7a4cff;
-  font-weight:600;
+.category h3{
+  padding:15px;
 }
 </style>
 </head>
 
 <body>
 
-<!-- HEADER -->
 <div class="header">
   <div class="header-left">
     <div class="toggle-btn" onclick="toggleSidebar()">☰</div>
@@ -192,71 +177,69 @@ body{
   </div>
 
   <div class="header-right">
-    <a href="user_dashboard.php" class="home-btn" title="Go Home">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="22" height="22" fill="white">
-        <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
+    <a href="user_dashboard.php" class="home-btn">
+      <svg xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24" width="22" height="22" fill="white">
+      <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
       </svg>
     </a>
   </div>
 </div>
 
-<!-- DASHBOARD -->
 <div class="dashboard">
 
-  <!-- SIDEBAR -->
-  <div class="sidebar collapsed" id="sidebar">
-    <h3>Categories</h3>
-    <ul>
-      <li><a href="women.php">Women</a></li>
-      <li><a href="men.php" class="active">Men</a></li>
-      <li><a href="accessories.php">Accessories</a></li>
-      <li><a href="#">New Arrivals</a></li>
-      <li><a href="#">Offers</a></li>
-    </ul>
-  </div>
+<div class="sidebar collapsed" id="sidebar">
+<h3>Categories</h3>
+<ul>
+<li><a href="women.php">Women</a></li>
+<li><a href="men.php" class="active">Men</a></li>
+<li><a href="accessories.php">Accessories</a></li>
+<li><a href="#">New Arrivals</a></li>
+<li><a href="#">Offers</a></li>
+</ul>
+</div>
 
-  <!-- MAIN -->
-  <div class="main">
+<div class="main">
 
-    <div class="hero">
-      <h2>Men’s Collection</h2>
-      <p>Discover the latest trends in men’s fashion</p>
-    </div>
+<div class="hero">
+<h2>Men’s Collection</h2>
+<p>Explore stylish fashion for men</p>
+</div>
 
-    <div class="products">
+<div class="categories">
 
-      <div class="product">
-        <img src="images/men1.jpg">
-        <h3>Casual Shirt</h3>
-        <p>₹1,199</p>
-      </div>
+<a href="men_shirts.php" class="category">
+<img src="images/men_shirts.jpg">
+<h3>Shirts</h3>
+<p class="explore">Explore Collection</p>
+</a>
 
-      <div class="product">
-        <img src="images/men2.jpg">
-        <h3>Formal Trousers</h3>
-        <p>₹1,499</p>
-      </div>
+<a href="men_tshirts.php" class="category">
+<img src="images/men_tshirts.jpg">
+<h3>T-Shirts</h3>
+<p class="explore">Explore Collection</p>
+</a>
 
-      <div class="product">
-        <img src="images/men3.jpg">
-        <h3>Denim Jacket</h3>
-        <p>₹2,299</p>
-      </div>
+<a href="men_jeans.php" class="category">
+<img src="images/men_jeans.jpg">
+<h3>Jeans</h3>
+<p class="explore">Explore Collection</p>
+</a>
 
-      <div class="product">
-        <img src="images/men4.jpg">
-        <h3>Classic T-Shirt</h3>
-        <p>₹799</p>
-      </div>
+<a href="men_ethnic.php" class="category">
+<img src="images/men_ethnic.jpg">
+<h3>Ethnic Wear</h3>
+<p class="explore">Explore Collection</p>
+</a>
 
-    </div>
+</div>
 
-  </div>
+</div>
 </div>
 
 <script>
 function toggleSidebar(){
-  document.getElementById("sidebar").classList.toggle("collapsed");
+document.getElementById("sidebar").classList.toggle("collapsed");
 }
 </script>
 

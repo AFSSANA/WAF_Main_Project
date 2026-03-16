@@ -1,14 +1,12 @@
 <?php
 session_start();
 
-/* Protect page */
 if (!isset($_SESSION['username'])) {
-    header("Location: login.php");
-    exit();
+header("Location: login.php");
+exit();
 }
-
-$username = $_SESSION['username'];
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -16,249 +14,151 @@ $username = $_SESSION['username'];
 <title>Accessories | Fashion Cloud</title>
 
 <style>
+
 *{
-  box-sizing:border-box;
-  font-family:"Segoe UI", sans-serif;
+box-sizing:border-box;
+font-family:"Segoe UI",sans-serif;
 }
 
 body{
-  margin:0;
-  background:#f2efff;
+margin:0;
+background:#f2efff;
 }
 
 /* HEADER */
+
 .header{
-  background:#7a4cff;
-  color:#fff;
-  padding:18px 40px;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-}
-
-.header-left{
-  display:flex;
-  align-items:center;
-  gap:15px;
-}
-
-.toggle-btn{
-  font-size:22px;
-  cursor:pointer;
-  background:#5c2fe0;
-  padding:8px 12px;
-  border-radius:8px;
-}
-
-.header h1{
-  margin:0;
-  font-size:24px;
-}
-
-.header-right{
-  display:flex;
-  align-items:center;
-  gap:15px;
+background:#7a4cff;
+color:white;
+padding:18px 40px;
+display:flex;
+justify-content:space-between;
+align-items:center;
 }
 
 .home-btn{
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  background:#5c2fe0;
-  padding:10px;
-  border-radius:10px;
-  text-decoration:none;
-}
-
-.home-btn:hover{
-  background:#4a22d4;
-}
-
-/* LAYOUT */
-.dashboard{
-  display:flex;
-  min-height:calc(100vh - 70px);
-}
-
-/* SIDEBAR */
-.sidebar{
-  width:240px;
-  background:#ffffff;
-  padding:25px 20px;
-  box-shadow:4px 0 15px rgba(0,0,0,0.05);
-  transition:0.3s;
-}
-
-.sidebar.collapsed{
-  width:0;
-  padding:0;
-  overflow:hidden;
-}
-
-.sidebar h3{
-  margin-bottom:20px;
-  color:#7a4cff;
-}
-
-.sidebar ul{
-  list-style:none;
-  padding:0;
-  margin:0;
-}
-
-.sidebar ul li{
-  margin-bottom:15px;
-}
-
-.sidebar ul li a{
-  text-decoration:none;
-  color:#444;
-  font-weight:500;
-  display:block;
-  padding:10px 15px;
-  border-radius:8px;
-}
-
-.sidebar ul li a:hover,
-.sidebar ul li a.active{
-  background:#efeaff;
-  color:#7a4cff;
-}
-
-/* MAIN */
-.main{
-  flex:1;
+background:#5c2fe0;
+padding:10px;
+border-radius:10px;
+text-decoration:none;
 }
 
 /* HERO */
+
 .hero{
-  padding:60px 80px;
-  background:linear-gradient(135deg,#8e5df7,#c4a8ff);
-  color:#fff;
+padding:60px 80px;
+background:linear-gradient(135deg,#8e5df7,#c4a8ff);
+color:white;
 }
 
-.hero h2{
-  font-size:40px;
-  margin-bottom:10px;
+.hero h1{
+font-size:40px;
+margin-bottom:10px;
 }
 
 .hero p{
-  font-size:18px;
-  opacity:0.95;
+font-size:18px;
 }
 
-/* PRODUCTS */
-.products{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-  gap:25px;
-  padding:40px;
+/* CATEGORY GRID */
+
+.categories{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+gap:30px;
+padding:50px;
 }
 
-.product{
-  background:#fff;
-  padding:20px;
-  border-radius:16px;
-  box-shadow:0 10px 25px rgba(0,0,0,0.1);
-  text-align:center;
+.category{
+background:white;
+padding:20px;
+border-radius:16px;
+text-align:center;
+box-shadow:0 10px 25px rgba(0,0,0,0.1);
 }
 
-.product img{
-  width:100%;
-  height:220px;
-  object-fit:cover;
-  border-radius:12px;
+.category img{
+width:100%;
+height:220px;
+object-fit:cover;
+border-radius:12px;
 }
 
-.product h3{
-  margin:12px 0 5px;
+.category h3{
+margin-top:15px;
 }
 
-.product p{
-  color:#7a4cff;
-  font-weight:600;
+.category a{
+text-decoration:none;
+color:#7a4cff;
+font-weight:600;
 }
+
 </style>
 </head>
 
 <body>
 
-<!-- HEADER -->
 <div class="header">
-  <div class="header-left">
-    <div class="toggle-btn" onclick="toggleSidebar()">☰</div>
-    <h1>Fashion Cloud</h1>
-  </div>
 
-  <div class="header-right">
-    <a href="user_dashboard.php" class="home-btn" title="Go Home">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="22" height="22" fill="white">
-        <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
-      </svg>
-    </a>
-  </div>
+<h2>Accessories</h2>
+
+<a href="user_dashboard.php" class="home-btn">
+
+<svg xmlns="http://www.w3.org/2000/svg"
+viewBox="0 0 24 24"
+width="22"
+height="22"
+fill="white">
+
+<path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
+
+</svg>
+
+</a>
+
 </div>
 
-<!-- DASHBOARD -->
-<div class="dashboard">
-
-  <!-- SIDEBAR -->
-  <div class="sidebar collapsed" id="sidebar">
-    <h3>Categories</h3>
-    <ul>
-      <li><a href="women.php">Women</a></li>
-      <li><a href="men.php">Men</a></li>
-      <li><a href="accessories.php" class="active">Accessories</a></li>
-      <li><a href="#">New Arrivals</a></li>
-      <li><a href="#">Offers</a></li>
-    </ul>
-  </div>
-
-  <!-- MAIN -->
-  <div class="main">
-
-    <div class="hero">
-      <h2>Accessories Collection</h2>
-      <p>Complete your look with stylish accessories</p>
-    </div>
-
-    <div class="products">
-
-      <div class="product">
-        <img src="images/acc1.jpg">
-        <h3>Handbag</h3>
-        <p>₹1,799</p>
-      </div>
-
-      <div class="product">
-        <img src="images/acc2.jpg">
-        <h3>Wrist Watch</h3>
-        <p>₹2,499</p>
-      </div>
-
-      <div class="product">
-        <img src="images/acc3.jpg">
-        <h3>Sunglasses</h3>
-        <p>₹899</p>
-      </div>
-
-      <div class="product">
-        <img src="images/acc4.jpg">
-        <h3>Jewellery Set</h3>
-        <p>₹1,299</p>
-      </div>
-
-    </div>
-
-  </div>
+<div class="hero">
+<h1>Accessories Collection</h1>
+<p>Complete your look with stylish accessories</p>
 </div>
 
-<script>
-function toggleSidebar(){
-  document.getElementById("sidebar").classList.toggle("collapsed");
-}
-</script>
+<div class="categories">
+
+<!-- HANDBAGS -->
+
+<div class="category">
+<img src="images/handbag.jpg">
+<h3>Handbags</h3>
+<a href="handbags.php">Explore Collection</a>
+</div>
+
+<!-- WATCHES -->
+
+<div class="category">
+<img src="images/watch.jpg">
+<h3>Watches</h3>
+<a href="watches.php">Explore Collection</a>
+</div>
+
+<!-- SUNGLASSES -->
+
+<div class="category">
+<img src="images/sunglasses.jpg">
+<h3>Sunglasses</h3>
+<a href="sunglasses.php">Explore Collection</a>
+</div>
+
+<!-- JEWELLERY -->
+
+<div class="category">
+<img src="images/jewellery.jpg">
+<h3>Jewellery Sets</h3>
+<a href="jewellery.php">Explore Collection</a>
+</div>
+
+</div>
 
 </body>
 </html>
